@@ -36,17 +36,11 @@ class PlgContentArticlemenu extends JPlugin
 		}
 
 		$tag = 'h3';
-		$articleContent = $article->introtext.$article->fulltext;
-		$headings = $this->getTags($articleContent, $tag);
+		$headings = $this->getTags($article->text, $tag);
 		$anchors = $this->prepareAnchors($headings);
-		$article->introtext = $this->insertAnchors($article->introtext, $headings, $tag);
-		$article->fulltext = $this->insertAnchors($article->fulltext, $headings, $tag);
-
-
-		echo "<pre>";
-		echo "article->introtext: ";
-		var_dump($article->introtext);
-		die("</pre>");
+		$article->text = $this->insertAnchors($article->text, $headings, $tag);
+		$articleMenu = $this->generateArticleMenu($anchors);
+		$article->text = $articleMenu.$article->text;
 	}
 
 	/**
@@ -120,6 +114,32 @@ class PlgContentArticlemenu extends JPlugin
 		}
 
 		return $html;
+	}
+
+	/**
+	 * Generate HTML for article menu
+	 *
+	 * @param array $anchors
+	 *
+	 * @return  string
+	 */
+	public function generateArticleMenu($anchors)
+	{
+		$menu = array();
+
+		if(is_array($anchors))
+		{
+			$menu[] = '<ul class="nav nav-list">';
+
+			foreach($anchors as $anchorId => $anchorName)
+			{
+				$menu[] = '<li><a href="#'.$anchorId.'">'.$anchorName.'</a></li>';
+			}
+		
+			$menu[] = '</ul>';
+		}
+		
+		return implode("\n", $menu);
 	}
 	
 }
