@@ -34,15 +34,28 @@ class PlgContentArticlemenu extends JPlugin
 			return true;
 		}
 
+		$articleContent = $article->introtext.$article->fulltext;
+
 		echo "<pre>";
-		echo "context:";
-		var_dump($context);
-		echo "article:";
-		var_dump($article);
-		echo "params:";
-		var_dump($params);
-		echo "page:";
-		var_dump($page);
+		echo "h3:";
+		var_dump($this->getTags($articleContent, 'h3'));
 		die("</pre>");
+	}
+
+	/**
+	 * Method to get all appearances of the tag by tag name
+	 *
+	 * @param string $html / source code
+	 * @param string $tag / html tag name
+	 *
+	 * @return  array
+	 */
+	public function getTags($html, $tag)
+	{
+		$tag = preg_quote($tag);
+
+		$pattern = '/<'.$tag.'(| .*?)>(.*?)<\/'.$tag.'>/is';
+		preg_match_all($pattern, $html, $matches, PREG_PATTERN_ORDER);
+		return $matches[2];
 	}
 }
