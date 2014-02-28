@@ -35,8 +35,14 @@ class PlgContentArticlemenu extends JPlugin
 			return true;
 		}
 
-		$tag = 'h3';
+		$tag = $this->params->get('tag', 'h2');
 		$headings = $this->getTags($article->text, $tag);
+
+		if(count($headings) <= $this->params->get('minimum_items', 3))
+		{
+			return true;
+		}
+
 		$anchors = $this->prepareAnchors($headings);
 		$article->text = $this->insertAnchors($article->text, $headings, $tag);
 		$articleMenu = $this->generateArticleMenu($anchors);

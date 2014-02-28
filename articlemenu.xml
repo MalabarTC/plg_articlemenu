@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later</license>
 	<authorEmail>support@easyjoomla.org</authorEmail>
 	<authorUrl>www.easyjoomla.org</authorUrl>
-	<version>0.0.9</version>
+	<version>0.1.0</version>
 	<description>PLG_ARTICLEMENU_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="articlemenu">articlemenu.php</filename>
@@ -18,4 +18,39 @@
 		<language tag="en-GB">en-GB/en-GB.plg_content_articlemenu.ini</language>
 		<language tag="en-GB">en-GB/en-GB.plg_content_articlemenu.sys.ini</language>
 	</languages>
+		<config>
+		<fields name="params">
+			<fieldset name="basic">
+
+				<field name="tag" 
+					type="list"
+					default="h3"
+					label="PLG_ARTICLEMENU_TAG"
+					description="PLG_ARTICLEMENU_TAG_DESC">
+					<option value="h1">H1</option>
+					<option value="h2">H2</option>
+					<option value="h3">H3</option>
+					<option value="h4">H4</option>
+					<option value="h5">H5</option>
+					<option value="h6">H6</option>
+				</field>
+
+				<field name="minimum_items" type="list"
+					default="3"
+					label="PLG_ARTICLEMENU_MINIMUM"
+					description="PLG_ARTICLEMENU_MINIMUM_DESC">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+				</field>
+
+			</fieldset>
+		</fields>
+	</config>
 </extension>
