@@ -161,7 +161,7 @@ class PlgContentArticlemenu extends JPlugin
 				$('.articlemenu-wrapper ul li a[href^=\'#\']').on('click', function(e) {
 					e.preventDefault();
 					var hash = this.hash;
-					$('html, body').animate({scrollTop: $(this.hash).offset().top - 50}, 300, function(){
+					$('html, body').animate({scrollTop: $(this.hash).offset().top - 30}, 300, function(){
 						window.location.hash = hash;
 					});
 
@@ -192,6 +192,8 @@ class PlgContentArticlemenu extends JPlugin
 				-webkit-border-bottom-left-radius: 10px;
 				-moz-border-radius-bottomleft: 10px;
 				border-bottom-left-radius: 10px;
+				padding-top: 15px;
+				padding-bottom: 15px;
 				filter:alpha(opacity=50);
 				opacity:0.5;
 				-webkit-transition: all 0.2s ease-in-out;
