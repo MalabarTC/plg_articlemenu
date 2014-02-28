@@ -39,11 +39,13 @@ class PlgContentArticlemenu extends JPlugin
 		$articleContent = $article->introtext.$article->fulltext;
 		$headings = $this->getTags($articleContent, $tag);
 		$anchors = $this->prepareAnchors($headings);
-		
+		$article->introtext = $this->insertAnchors($article->introtext, $headings, $tag);
+		$article->fulltext = $this->insertAnchors($article->fulltext, $headings, $tag);
+
 
 		echo "<pre>";
-		echo "anchors: ";
-		var_dump($anchors);
+		echo "article->introtext: ";
+		var_dump($article->introtext);
 		die("</pre>");
 	}
 
@@ -91,5 +93,33 @@ class PlgContentArticlemenu extends JPlugin
 		return $anchors;
 	}
 
+
+	/**
+	 * Insert anchors into the HTML code
+	 *
+	 * @param string $html / source code
+	 * @param array $headings
+	 * @param string $tag / html tag name
+	 *
+	 * @return  array
+	 */
+	public function insertAnchors($html, $headings, $tag)
+	{
+		if (isset($headings[0]))
+		{
+			foreach ($headings as $heading)
+			{
+				if ($heading)
+				{
+					$anchorId = JFilterOutput::stringURLSafe(trim(strip_tags($heading)));
+					$html = preg_replace('#<'.$tag.'(|[^>]+)>\Q'.$heading.'\E</'.$tag.'>#is',
+						'<div id="'.$anchorId.'" class="articlemenu"></div>$0',
+						$html);
+				}
+			}
+		}
+
+		return $html;
+	}
 	
 }
