@@ -35,10 +35,20 @@ class PlgContentArticlemenu extends JPlugin
 			return true;
 		}
 
-		$tag = $this->params->get('tag', 'h2');
+		if (isset($article->attribs))
+		{
+			$attribs = json_decode($article->attribs);
+
+			if (isset($attribs->load_article_menu) && $attribs->load_article_menu == 0)
+			{
+				return true;
+			}
+		}
+
+		$tag = $this->params->get('tag', 'h3');
 		$headings = $this->getTags($article->text, $tag);
 
-		if(count($headings) <= $this->params->get('minimum_items', 3))
+		if (count($headings) <= $this->params->get('minimum_items', 3))
 		{
 			return true;
 		}
@@ -219,5 +229,31 @@ class PlgContentArticlemenu extends JPlugin
 		$document = JFactory::getDocument();
 		$document->addStyleDeclaration($css);
 	}
-	
+
+	function onContentPrepareForm($form, $data)
+	{
+		if (!($form instanceof JForm))
+		{
+			$this->_subject->setError('JERROR_NOT_A_FORM');
+			return false;
+		}
+
+		if ($form->getName() != "com_content.article")
+		{
+			return true;
+		}
+
+		JForm::addFormPath(dirname(__FILE__) . '/form');
+
+		$lang = JFactory::getLanguage();
+		$lang->load('plg_content_articlemenu', JPATH_ADMINISTRATOR);
+
+		if (!$form->loadFile('articlemenu', false))
+		{
+			die('No Form');
+		}
+
+		return true;
+	}
+
 }

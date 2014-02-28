@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="attribs">
+		<fieldset name="articlemenu" label="PLG_CONTENT_ARTICLEMENU">
+
+			<field
+				name="load_article_menu"
+				type="list"
+				class="chzn-color"
+				default="1"
+				label="PLG_ARTICLEMENU_LOAD_ARTICLE_MENU"
+				description="PLG_ARTICLEMENU_LOAD_ARTICLE_MENU_DESC"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+
+		</fieldset>
+	</fields>
+</form>
