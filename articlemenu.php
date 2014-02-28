@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
  */
 class PlgContentArticlemenu extends JPlugin
 {
+
 	/**
 	 * Method to catch the onContentPrepare event.
 	 *
@@ -34,11 +35,15 @@ class PlgContentArticlemenu extends JPlugin
 			return true;
 		}
 
+		$tag = 'h3';
 		$articleContent = $article->introtext.$article->fulltext;
+		$headings = $this->getTags($articleContent, $tag);
+		$anchors = $this->prepareAnchors($headings);
+		
 
 		echo "<pre>";
-		echo "h3:";
-		var_dump($this->getTags($articleContent, 'h3'));
+		echo "anchors: ";
+		var_dump($anchors);
 		die("</pre>");
 	}
 
@@ -58,4 +63,33 @@ class PlgContentArticlemenu extends JPlugin
 		preg_match_all($pattern, $html, $matches, PREG_PATTERN_ORDER);
 		return $matches[2];
 	}
+
+	/**
+	 * Method to prepare an anchor array
+	 *
+	 * @param array $headings
+	 *
+	 * @return  array
+	 */
+	public function prepareAnchors($headings)
+	{
+		$anchors = array();
+
+		if (isset($headings[0]))
+		{
+			foreach ($headings as $heading)
+			{
+				if ($heading)
+				{
+					$cleanHeading = trim(strip_tags($heading));
+					$anchorId = JFilterOutput::stringURLSafe($cleanHeading);
+					$anchors[$anchorId] = $cleanHeading;
+				}
+			}
+		}
+
+		return $anchors;
+	}
+
+	
 }
