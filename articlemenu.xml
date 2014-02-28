@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later</license>
 	<authorEmail>support@easyjoomla.org</authorEmail>
 	<authorUrl>www.easyjoomla.org</authorUrl>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 	<description>PLG_ARTICLEMENU_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="articlemenu">articlemenu.php</filename>
