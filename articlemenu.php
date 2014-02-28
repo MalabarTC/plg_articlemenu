@@ -230,6 +230,14 @@ class PlgContentArticlemenu extends JPlugin
 		$document->addStyleDeclaration($css);
 	}
 
+	/**
+	 * Method to catch the onContentPrepareForm event.
+	 *
+	 * @param   JForm   $form   The form object of the component.
+	 * @param   object   $data 
+	 *
+	 * @return  boolean
+	 */
 	function onContentPrepareForm($form, $data)
 	{
 		if (!($form instanceof JForm))
