@@ -28,6 +28,12 @@ class PlgContentArticlemenu extends JPlugin
 	 */
 	public function onContentPrepare($context, &$article, &$params, $page = 0)
 	{
+		// Run this plugin for com_content.article only
+		if ($context != 'com_content.article')
+		{
+			return true;
+		}
+
 		echo "<pre>";
 		echo "context:";
 		var_dump($context);
