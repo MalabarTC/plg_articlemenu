@@ -41,6 +41,8 @@ class PlgContentArticlemenu extends JPlugin
 		$article->text = $this->insertAnchors($article->text, $headings, $tag);
 		$articleMenu = $this->generateArticleMenu($anchors);
 		$article->text = $articleMenu.$article->text;
+		$this->initJavascript();
+		$this->initCss();
 	}
 
 	/**
@@ -129,6 +131,7 @@ class PlgContentArticlemenu extends JPlugin
 
 		if(is_array($anchors))
 		{
+			$menu[] = '<div class="articlemenu-wrapper">';
 			$menu[] = '<ul class="nav nav-list">';
 
 			foreach($anchors as $anchorId => $anchorName)
@@ -137,9 +140,76 @@ class PlgContentArticlemenu extends JPlugin
 			}
 		
 			$menu[] = '</ul>';
+			$menu[] = '</div>';
 		}
 		
 		return implode("\n", $menu);
+	}
+
+	/**
+	 * Initialize Javascript
+	 *
+	 * @return  void
+	 */
+	public function initJavascript()
+	{
+		$js = "
+
+			jQuery(function($) {
+				$('body').scrollspy({ target: '.articlemenu-wrapper' });
+
+				$('.articlemenu-wrapper ul li a[href^=\'#\']').on('click', function(e) {
+					e.preventDefault();
+					var hash = this.hash;
+					$('html, body').animate({scrollTop: $(this.hash).offset().top - 50}, 300, function(){
+						window.location.hash = hash;
+					});
+
+				});
+			});
+
+		";
+
+		$document = JFactory::getDocument();
+		$document->addScriptDeclaration($js);
+	}
+
+	/**
+	 * Initialize CSS
+	 *
+	 * @return  void
+	 */
+	public function initCss()
+	{
+		$css = "
+
+			.articlemenu-wrapper ul{
+				position:fixed;
+				background:#fff;
+				width:200px;
+				right:0;
+				top:0;
+				-webkit-border-bottom-left-radius: 10px;
+				-moz-border-radius-bottomleft: 10px;
+				border-bottom-left-radius: 10px;
+				filter:alpha(opacity=50);
+				opacity:0.5;
+				-webkit-transition: all 0.2s ease-in-out;
+				-moz-transition: all 0.2s ease-in-out;
+				-ms-transition: all 0.2s ease-in-out;
+				-o-transition: all 0.2s ease-in-out;
+				transition: all 0.2s ease-in-out;
+			}
+
+			.articlemenu-wrapper ul:hover{
+				filter:alpha(opacity=1);
+				opacity:1;
+			}
+
+		";
+
+		$document = JFactory::getDocument();
+		$document->addStyleDeclaration($css);
 	}
 	
 }
